@@ -7,24 +7,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class Customer {
-// Customer_App 과 연결하는 과정에서 이제 필요 없어져서 커멘드 처리 함
-//	public static void main(String[] args) {
-//		createTable();
-//		createCustomer("Dan","123456789","Male","23","Note EX..");
-//		ArrayList<String> list = getCustomers();
-		// 출력
-//		for (String item: list) {
-//			System.out.println(item);
-//		}
-		// create
-//		createCustomer("Niki","010369758","Female","17","... one two ...");
-		
-		// 출력
-//		list = getCustomers();
-//		for (String item: list) {
-//			System.out.println(item);
-//		}
-//	}
 	
 	public static String[][] getCustomers() {
 		try {
@@ -114,5 +96,17 @@ public class Customer {
 			return null;
 		}
 	}
-
+	
+	// Customer_App 과 연결하는 과정에서 이제 필요 없어져서 커멘드 처리 함
+	public static void main(String[] args) {
+		createTable();
+//		createCustomer("Dan","123456789","Male","23","Note EX..");
+//		ArrayList<String> list = getCustomers();
+		String[][] list = getCustomers();
+			// 출력
+//			for (String item: list) {
+		for (String[] item: list) {
+			System.out.println(item);
+		}
+	}
 }
