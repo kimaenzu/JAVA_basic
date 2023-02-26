@@ -26,22 +26,28 @@ public class Customer {
 //		}
 //	}
 	
-	public static ArrayList<String> getCustomers() {
+	public static String[][] getCustomers() {
 		try {
 			Connection con = getConnection();
-			PreparedStatement statement = con.prepareStatement("SELECT name, phone, gender FROM customer");
+			PreparedStatement statement = con.prepareStatement("SELECT name, phone, gender, age, note FROM customer");
 
 			// 불러 온 결과 저장
 			ResultSet results = statement.executeQuery();
-			ArrayList<String> list = new ArrayList<String>();
+			ArrayList<String[]> list = new ArrayList<String[]>();
 			// 다음 데이터가 없을 때까지 순차로 데이터를 불러와 저장
-			while(results.next ()) {
-				list.add("Name : " + results.getString("name")+
-						" phone : "+results.getString("phone")+
-						" Gender : "+results.getString("gender"));
+			while(results.next()) {
+				list.add(new String[] {
+						results.getString("name"),
+						results.getString("phone"),
+						results.getString("gender"),
+						results.getString("age"),
+						results.getString("note")
+						});
 			}
-			System.out.println("The data has been getched");
-			return list;
+			System.out.println("The data has been fetched");
+			//return 하기 전 
+			String[][] arr = new String[list.size()][5];
+			return list.toArray(arr);
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

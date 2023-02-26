@@ -1,37 +1,39 @@
 package P;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
-
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.BorderLayout;
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
-import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JCheckBox;
-import javax.swing.JTextPane;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Customer_App {
 
@@ -42,6 +44,7 @@ public class Customer_App {
 	private JTextField age;
 	private JTextField phone;
 	private JTextField birthday;
+	private JTextField search;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -73,6 +76,51 @@ public class Customer_App {
 		// frame
 		frame = new JFrame();
 
+		// Table_P
+		ImagePanel Table_P = new ImagePanel();
+		Table_P.setBounds(0, 0, 1388, 822);
+		// 코드 작성할 때만 잠깐 true로 하고 실행할 땐 false로 (이 페이지가 먼저 보이면 안됨)
+		Table_P.setVisible(false);
+		String [][] data = customer.getCustomers();
+		String [] headers = new String[] {"name","phone","gender","age","Note"};
+		Table_P.setLayout(null);
+		JTable table = new JTable(data, headers);
+		table.setRowHeight(30);
+		table.setFont (new Font("Georgia", Font.BOLD, 20));
+		table.setAlignmentX(0);
+		table.setSize(800,600);
+		table.setPreferredScrollableViewportSize(new Dimension(800,600));
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(292, 111, 802, 628);
+		Table_P.add(scrollPane);
+		frame.getContentPane().add(Table_P);
+		
+		JLabel SearchL = new JLabel("DB Table");
+		SearchL.setFont(new Font("Georgia", Font.PLAIN, 42));
+		SearchL.setBounds(53, 31, 210, 70);
+		Table_P.add(SearchL);
+		
+		search = new JTextField();
+		search.setFont(new Font("Georgia", Font.PLAIN, 38));
+		search.setBounds(292, 31, 759, 70);
+		Table_P.add(search);
+		search.setColumns(10);
+		// event 추가
+		search.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				String val = search.getText();
+				TableRowSorter<TableModel> trs = new TableRowSorter<>(table.getModel());
+				table.setRowSorter(trs);
+				trs.setRowFilter(RowFilter.regexFilter(val));
+			}
+		});
+		
+		TableColumnModel columnModels = table.getColumnModel();
+		columnModels.getColumn(0).setPreferredWidth(100);
+		columnModels.getColumn(2).setPreferredWidth(50);
+		columnModels.getColumn(3).setPreferredWidth(20);  //20이 최솟값
+
+		
 		// welcomePanel
 		ImagePanel welcomePanel = new ImagePanel(new ImageIcon("C:/Users/user/eclipse-workspace/WB/image/bgi_gray.png").getImage());
 		frame.setSize(welcomePanel.getWidth(), welcomePanel.getHeight());
@@ -227,8 +275,10 @@ public class Customer_App {
 				String noteTxt = note.getText();
 //				Customer customer = new Customer(nameTxt, ageTxt);
 				// 입력받은 데이터 저장
-				customer.createCustomer(nameTxt, phoneTxt, genderTxt, ageTxt, noteTxt);
+		//		customer.createCustomer(nameTxt, phoneTxt, genderTxt, ageTxt, noteTxt);
 				JOptionPane.showMessageDialog(null, "Your data has been saved successfully");
+				// 버튼을 누르면 정보를 불러오는 페이지 (DB Table)을 보이도록 함
+				MAIN.setVisible(false);
 			}
 		});
 		
@@ -273,6 +323,7 @@ public class Customer_App {
 			
 		});
 		panel.add(btn_sign_in);
+		
 
 		frame.setJMenuBar(menuBar());
 		frame.setLocationRelativeTo(null);
