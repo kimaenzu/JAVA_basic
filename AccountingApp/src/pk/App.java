@@ -86,12 +86,13 @@ public class App {
 		ImagePanel sumPanel = new ImagePanel(new ImageIcon("C:\\Users\\user\\eclipse-workspace\\AccountingApp\\image\\panel_bgi_bagic.png").getImage());
 		ImagePanel tranPanel = new ImagePanel(new ImageIcon("C:\\Users\\user\\eclipse-workspace\\AccountingApp\\image\\panel_bgi_bagic.png").getImage());
 		
-		frame.setSize(loginPanel.getDim());
-		frame.setPreferredSize(loginPanel.getDim());
+		frame.setSize(new Dimension(1010, 595));
+		frame.setPreferredSize(new Dimension(1010, 595));
 		// Design에서 panel 드래그가 안돼서 불편함. 편집할 때 여기서 순서 바꿔서 하기
+		frame.getContentPane().add(loginPanel);
 		frame.getContentPane().add(sumPanel);
 		frame.getContentPane().add(tranPanel);
-		frame.getContentPane().add(loginPanel);
+		
 		sumPanel.setVisible(false);
 		tranPanel.setVisible(false);
 		
