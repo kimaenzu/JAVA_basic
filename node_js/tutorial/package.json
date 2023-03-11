@@ -4,7 +4,7 @@
   "description": "",
   "main": "sample.js",
   "scripts": {
-    "dev": "nodemon sample.js"
+    "dev": "nodemon sample.js -e js,json,hbs"
   },
   "keywords": [],
   "author": "",
